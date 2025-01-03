@@ -1,5 +1,6 @@
 const Product = require("../../Models/productModels/products");
 const mongoose = require("mongoose");
+
 // const ProductCategories = require("../../Models/productModels/productCategories");
 
 const ProductCategories = require("../../Models/productModels/productCategories");
@@ -8,12 +9,10 @@ exports.addProductCategory = async (req, res) => {
   try {
     const { categoryName, categoryDescription } = req.body;
 
-    // Validate request body
     if (!categoryName) {
       return res.status(400).json({ message: "Category name is required." });
     }
 
-    // Create a new category using the ProductCategories model
     const newCategory = new ProductCategories({
       categoryName,
       categoryDescription,
@@ -32,10 +31,11 @@ exports.addProductCategory = async (req, res) => {
     });
   }
 };
+
 // res.status(200).json(customer);
 exports.getAllProductCategories = async (req, res) => {
   try {
-    const categories = await ProductCategories.find({}); // Fetch all categories
+    const categories = await ProductCategories.find({});
     res.status(200).json(categories);
   } catch (error) {
     console.error("Error fetching categories:", error);

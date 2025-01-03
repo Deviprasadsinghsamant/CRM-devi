@@ -31,7 +31,7 @@ const AddBulkProductModal = ({ open, onClose }) => {
     }
   };
   const handleBackdropClick = (event) => {
-    event.stopPropagation(); // Prevent closing the modal when clicking outside
+    event.stopPropagation();
   };
 
   return (

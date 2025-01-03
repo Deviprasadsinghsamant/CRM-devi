@@ -8,8 +8,8 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 const EditProduct = () => {
-  const { productId } = useParams(); // Extract product ID from URL
-  const navigate = useNavigate(); // Hook to navigate programmatically
+  const { productId } = useParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     selectCategory: "",
     productCode: "",
@@ -19,18 +19,16 @@ const EditProduct = () => {
     taxSlab: "",
     hsnCode: "",
     price: "",
-    image: "", // Added Image field
-    dateAdded: "", // Added Date Added field
+    image: "",
+    dateAdded: "",
   });
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const fetchProductDetails = async () => {
-      //   const testId = "67765fd24cd8d63e5152786d";
-
       try {
         console.log(`Fetching product details for ID: ${productId}`);
-        // const response = await axios.get(`http://localhost:8080/addProduct/${testId}`);
+
         const response = await axios.get(`http://localhost:8080/addProduct/${productId}`);
         console.log("Response:", response.data);
         setFormData(response.data.product);
@@ -39,7 +37,6 @@ const EditProduct = () => {
       }
     };
 
-    // Fetch categories to populate the category dropdown
     const fetchCategories = async () => {
       try {
         const response = await axios.get("http://localhost:8080/addCategory");

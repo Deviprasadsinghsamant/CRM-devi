@@ -115,13 +115,6 @@ const AddProductModal = ({ open, onClose }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // const handleCategoryChange = (event, value) => {
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     selectCategory: value?.id || null, // Set null if no category is selected
-  //   }));
-  // };
-
   //previous was working fine v1
   const handleCategoryChange = (event, value) => {
     console.log("Selected category:", value); // Log the selected category
@@ -299,17 +292,7 @@ const AddProductModal = ({ open, onClose }) => {
             Submit
           </Button>
           <Button
-            // style={{
-            //   // background: "linear-gradient(to right, #6a11cb, #2575fc)",
-            //   color: "error",
-            // }}
-            // variant="contained"
             variant="outlined"
-            // style={{
-            //   // background: "linear-gradient(to right, #6a11cb, #2575fc)",
-            //   color: "grey",
-            // }}
-            // color="error"
             sx={{
               color: "#6a11cb",
               borderColor: "#6a11cb",
