@@ -10,7 +10,7 @@ import axios from "axios";
 import { useOrderContext } from "../../../context/OrderContext";
 import dayjs from "dayjs";
 import { WidthFull } from "@mui/icons-material";
-
+import { toast, ToastContainer } from "react-toastify";
 const InvoiceForm = () => {
   const { orderId, generateOrderId } = useOrderContext();
 
@@ -23,72 +23,38 @@ const InvoiceForm = () => {
     },
   ]);
 
-  //form submit handler
-  // const handleSubmitInvoice = async () => {
-  //   if (!orderId) {
-  //     alert("Order ID is still generating. Please wait.");
-  //     return;
-  //   }
-  //   const isValid = invoiceForms.every((form) => form.invoiceNumber && form.invoiceDate);
-  //   if (!isValid) {
-  //     alert("Please fill in all required fields (Invoice Number, Invoice Date).");
-  //     return;
-  //   }
-  //   try {
-  //     const invoiceData = invoiceForms.map((form) => ({
-  //       orderId,
-  //       invoiceId: form.invoiceId || "",
-  //       invoiceNumber: form.invoiceNumber,
-  //       invoiceDate: form.invoiceDate ? form.invoiceDate.format("YYYY-MM-DD") : null,
-  //     }));
-  //     console.log("Invoice Data:", invoiceData);
-
-  //     const response = await axios.post("http://localhost:8080/invoices", invoiceData);
-  //     alert("Invoices submitted successfully!");
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.error("Error submitting the Invoice Form:", error);
-  //     alert("Failed to submit the invoice.");
-  //   }
-  // };
   const handleSubmitInvoice = async () => {
     if (!orderId) {
-      alert("Order ID is still generating. Please wait.");
+      toast.error("Order ID is still generating. Please wait.");
       return;
     }
 
     // Validate all invoice forms
     const isValid = invoiceForms.every((form) => form.invoiceNumber && form.invoiceDate);
     if (!isValid) {
-      alert("Please fill in all required fields (Invoice Number, Invoice Date).");
+      toast.error("Please fill in all required fields (Invoice Number, Invoice Date).");
       return;
     }
     console.log(invoiceForms);
     try {
       // Map and prepare invoice data
       const invoiceData = invoiceForms.map((form) => ({
-        // const formattedDate =
-        //   form.invoiceDate && dayjs(form.invoiceDate).isValid()
-        //     ? dayjs(form.invoiceDate).format("YYYY-MM-DD")
-        //     : null;
-        // return {
         orderId,
         invoiceId: form.invoiceId || "",
         invoiceNumber: form.invoiceNumber,
-        invoiceDate: form.invoiceDate, // Always ensure valid date format
-        // };
+        invoiceDate: form.invoiceDate,
       }));
 
       console.log("Invoice Data:", invoiceData);
 
       const response = await axios.post("http://localhost:8080/invoices", invoiceData);
-      alert("Invoices submitted successfully!");
+      toast.success("Invoices submitted successfully!");
       console.log(response.data);
     } catch (error) {
       console.error("Error submitting the Invoice Form:", error);
 
       const errorMessage = error.response?.data?.message || "Failed to submit the invoice.";
-      alert(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
@@ -113,7 +79,7 @@ const InvoiceForm = () => {
     );
   };
 
-  // GENERATE ORER id if not generated
+  // GENERATE ORdER id if not generated
   useEffect(() => {
     const fetchOrderId = async () => {
       if (!orderId) {
@@ -221,6 +187,7 @@ const InvoiceForm = () => {
           Submit Invoices
         </Button>
       </Box>
+      <ToastContainer />
     </Grid>
     // </LocalizationProvider>
   );

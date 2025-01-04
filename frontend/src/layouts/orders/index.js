@@ -29,6 +29,8 @@ import PaymentForm from "./forms/PaymentForm";
 import ProductForm from "./forms/ProductForms";
 import { useOrderContext } from "../../context/OrderContext";
 import { generateOrderId } from "../../context/OrderContext";
+import { ToastContainer, toast } from "react-toastify";
+import "./globalstyling/index.css";
 
 function Tables() {
   //f2
@@ -216,7 +218,7 @@ function Tables() {
       };
 
       const response = await axios.post("http://localhost:8080/orders", formattedData);
-      alert("Order created successfully!");
+      toast.success("Order created successfully!");
       console.log(response.data);
       //v5 to reset form
       resetForm();
@@ -224,7 +226,7 @@ function Tables() {
       // await generateOrderId();
     } catch (error) {
       console.error("Error creating order:", error);
-      alert("Failed to create the order.");
+      toast.error("Failed to create the order.");
     }
   };
   // Function to handle customer addition
@@ -389,11 +391,7 @@ function Tables() {
               xs={12}
               md={8}
               // new add below style only
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-              }}
+              className="container"
             >
               <Autocomplete
                 options={customers} // Use customer objects
@@ -417,18 +415,7 @@ function Tables() {
                 )}
                 style={{ flexGrow: 1 }}
               />
-              <Button
-                variant="contained"
-                style={{
-                  background: "linear-gradient(to right, #6a11cb, #2575fc)",
-                  color: "white",
-                  height: "47px", // heiiight mathch
-                  padding: "0 15px",
-                  fontSize: "12px",
-                  width: "250px",
-                }}
-                onClick={handleModalOpen}
-              >
+              <Button variant="contained" className="custom-button" onClick={handleModalOpen}>
                 Add Customer
               </Button>
               <CustomerModal
@@ -566,10 +553,7 @@ function Tables() {
         <Box display="flex" justifyContent="center" mt={4} gap={2}>
           <Button
             variant="contained"
-            style={{
-              background: "linear-gradient(to right, #6a11cb, #2575fc)",
-              color: "white",
-            }}
+            className="button-custom"
             startIcon={<AddCircleIcon />}
             onClick={() => setActiveForm("product")}
           >
@@ -577,10 +561,7 @@ function Tables() {
           </Button>
           <Button
             variant="contained"
-            style={{
-              background: "linear-gradient(to right, #6a11cb, #2575fc)",
-              color: "white",
-            }}
+            className="button-custom"
             startIcon={<AddCircleIcon />}
             onClick={() => setActiveForm("invoice")}
           >
@@ -588,10 +569,7 @@ function Tables() {
           </Button>
           <Button
             variant="contained"
-            style={{
-              background: "linear-gradient(to right, #6a11cb, #2575fc)",
-              color: "white",
-            }}
+            className="button-custom"
             startIcon={<AddCircleIcon />}
             onClick={() => setActiveForm("logistics")}
           >
@@ -599,10 +577,7 @@ function Tables() {
           </Button>
           <Button
             variant="contained"
-            style={{
-              background: "linear-gradient(to right, #6a11cb, #2575fc)",
-              color: "white",
-            }}
+            className="button-custom"
             startIcon={<AddCircleIcon />}
             onClick={() => setActiveForm("payment")}
           >
@@ -617,51 +592,20 @@ function Tables() {
         <div>{renderForm()}</div>
 
         <Grid container spacing={2} style={{ padding: "20px" }}>
-          <Grid
-            item
-            xs={12}
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              gap: "16px",
-            }}
-          >
+          <Grid item xs={12} className="grid-item">
             <Grid item xs={12}>
-              <Button
-                variant="contained"
-                style={{
-                  background: "linear-gradient(to right, #6a11cb, #2575fc)",
-                  color: "#fff",
-                  textTransform: "none",
-                  padding: "8px 24px",
-                }}
-              >
+              <Button variant="contained" className="button_custom">
                 Cancel Order
               </Button>
             </Grid>
-            <Button
-              variant="contained"
-              style={{
-                background: "linear-gradient(to right, #6a11cb, #2575fc)",
-                color: "#fff",
-                textTransform: "none",
-                padding: "8px 24px",
-              }}
-            >
+            <Button variant="contained" className="button_custom">
               Save
             </Button>
-            <Button
-              variant="contained"
-              style={{
-                background: "linear-gradient(to right, #6a11cb, #2575fc)",
-                color: "#fff",
-                textTransform: "none",
-                padding: "8px 24px",
-              }}
-            >
+            <Button variant="contained" className="button_custom">
               Submit This whole as a form
             </Button>
           </Grid>
+          <ToastContainer />
         </Grid>
       </Paper>
     </Container>

@@ -18,6 +18,7 @@ import MDBox from "components/MDBox";
 import { handleError } from "utils";
 import { handleSuccess } from "utils";
 import { ToastContainer } from "react-toastify";
+import "./index.css";
 
 const Login = () => {
   const [loginInfo, setLoginInfo] = useState({

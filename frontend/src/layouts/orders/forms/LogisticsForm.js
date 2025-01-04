@@ -17,6 +17,8 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import axios from "axios";
 import { useOrderContext } from "../../../context/OrderContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LogisticsForm = () => {
   const { orderId, generateOrderId } = useOrderContext();
@@ -67,11 +69,11 @@ const LogisticsForm = () => {
       console.log("Logistics Data:", logisticsData);
 
       const response = await axios.post("http://localhost:8080/logistics", logisticsData);
-      alert("Logistics details submitted successfully!");
+      toast.success("Logistics details submitted successfully!");
       console.log(response.data);
     } catch (error) {
       console.error("Error submitting the Logistics Form:", error);
-      alert("Failed to submit logistics details.");
+      toast.error("Failed to submit logistics details.");
     }
   };
 
@@ -239,6 +241,7 @@ const LogisticsForm = () => {
           Submit Logistics
         </Button>
       </Box>
+      <ToastContainer />
     </Grid>
   );
 };

@@ -76,15 +76,24 @@ const AddBulkProductModal = ({ open, onClose }) => {
               />
             </Box>
           )}
-          <Grid container spacing={8} justifyContent="center" marginTop={3}>
+          <Grid
+            container
+            spacing={2}
+            marginTop={3}
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
             <Grid item>
               <Button
                 variant="contained"
-                className="custom-button"
                 onClick={onClose}
                 style={{
                   background: "linear-gradient(to right, #6a11cb, #2575fc)",
                   color: "white",
+                  padding: "4px 12px", // Reduced padding
+                  fontSize: "0.8rem", // Smaller font size
+                  minWidth: "80px", // Minimum button width
                 }}
               >
                 Cancel
@@ -93,10 +102,12 @@ const AddBulkProductModal = ({ open, onClose }) => {
             <Grid item>
               <Button
                 variant="contained"
-                className="custom-button"
                 style={{
                   background: "linear-gradient(to right, #6a11cb, #2575fc)",
                   color: "white",
+                  padding: "4px 12px", // Reduced padding
+                  fontSize: "0.8rem", // Smaller font size
+                  minWidth: "80px", // Minimum button width
                 }}
               >
                 Add Products

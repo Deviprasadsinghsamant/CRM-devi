@@ -20,6 +20,7 @@ import {
 import { Link } from "react-router-dom";
 import axios from "axios";
 import ViewPaymentsModal from "modals/ViewPaymentsModal";
+import "./globalstyling/showPayment.css";
 // import CreateOrder from "./CreateOrder"; // Import your CreateOrder component
 
 function ShowPayment() {
@@ -131,14 +132,7 @@ function ShowPayment() {
         <TableContainer component={Paper} style={{ borderRadius: "8px" }}>
           <Table style={{ tableLayout: "fixed", width: "100%" }}>
             <TableHead>
-              <TableRow
-                style={{
-                  background: "linear-gradient(to right, #6a11cb, #2575fc)",
-                  color: "#333",
-                  borderRadius: "8px",
-                  display: "flex",
-                }}
-              >
+              <TableRow className="row-background">
                 <TableCell
                   style={{
                     padding: "12px 16px",

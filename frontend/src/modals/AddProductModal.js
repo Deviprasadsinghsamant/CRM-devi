@@ -11,7 +11,10 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./globalstyling/modal.css";
+import "./globalstyling/addProductModal.css";
 import AddCategoryModal from "./AddCategoryModal";
 
 const AddProductModal = ({ open, onClose }) => {
@@ -99,14 +102,14 @@ const AddProductModal = ({ open, onClose }) => {
       });
 
       if (response.status === 201) {
-        alert("Product added successfully!");
+        toast.success("Product added successfully!");
         onClose();
       } else {
         alert(`Error: ${response.data.message}`);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert(error.response?.data?.message || "An error occurred while submitting the form.");
+      toast.error(error.response?.data?.message || "An error occurred while submitting the form.");
     }
   };
 
@@ -136,23 +139,22 @@ const AddProductModal = ({ open, onClose }) => {
     // event.stopPropagation();
   };
 
-  const modalStyle = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 500,
-    bgcolor: "background.paper",
-    // border: "2px solid #f44336",
-    boxShadow: 24,
-    p: 4,
-    borderRadius: "8px",
-  };
+  // const modalStyle = {
+  //   position: "absolute",
+  //   top: "50%",
+  //   left: "50%",
+  //   transform: "translate(-50%, -50%)",
+  //   width: 500,
+  //   bgcolor: "background.paper",
+  //   boxShadow: 24,
+  //   p: 4,
+  //   borderRadius: "8px",
+  // };
 
   return (
     <Modal open={open} onClose={handleBackdropClick}>
-      <Box sx={modalStyle} onClick={handleBackdropClick}>
-        <Typography variant="h6" gutterBottom>
+      <Box className="modal-style" onClick={handleBackdropClick}>
+        <Typography variant="h5" gutterBottom mb={2}>
           Product Form
         </Typography>
         <Grid container spacing={2} alignItems="center">
@@ -299,17 +301,6 @@ const AddProductModal = ({ open, onClose }) => {
             Submit
           </Button>
           <Button
-            // style={{
-            //   // background: "linear-gradient(to right, #6a11cb, #2575fc)",
-            //   color: "error",
-            // }}
-            // variant="contained"
-            variant="outlined"
-            // style={{
-            //   // background: "linear-gradient(to right, #6a11cb, #2575fc)",
-            //   color: "grey",
-            // }}
-            // color="error"
             sx={{
               color: "#6a11cb",
               borderColor: "#6a11cb",

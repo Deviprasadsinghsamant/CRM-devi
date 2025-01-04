@@ -29,7 +29,7 @@ import ShowLogistics from "./ShowLogistics";
 import ShowPayment from "./ShowPayment";
 import ViewModal from "modals/ViewModal";
 import EditIcon from "@mui/icons-material/Edit";
-import "./ShowTable.css";
+import "./globalstyling/ShowTable.css";
 
 function OrderManagement() {
   const [orders, setOrders] = useState([]);

@@ -149,21 +149,12 @@ function ShowLogistics() {
         <TableContainer component={Paper} style={{ borderRadius: "8px" }}>
           <Table style={{ tableLayout: "fixed", width: "100%" }}>
             <TableHead>
-              <TableRow
-                style={{
-                  background: "linear-gradient(to right, #6a11cb, #2575fc)",
-                  color: "#333",
-                  borderRadius: "8px",
-                  display: "flex",
-                  color: "white",
-                }}
-              >
+              <TableRow className="row-background">
                 <TableCell
                   style={{
                     padding: "12px 16px",
                     flexGrow: 1,
                     textAlign: "center",
-                    color: "white",
                     color: "white",
                   }}
                 >

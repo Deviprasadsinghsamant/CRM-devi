@@ -26,13 +26,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import AddProductModal from "modals/AddProductModal";
 import AddBulkProductModal from "modals/AddBulkProductModal";
+import "./index.css";
 
 const StyledAddIcon = styled(AddIcon)(({ theme }) => ({
   fontSize: "3rem",
   color: "white",
 }));
 
-function ProductManangement() {
+function ProductManagement() {
   const [products, setProducts] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -97,10 +98,7 @@ function ProductManangement() {
               <div style={{ display: "flex", gap: "20px" }}>
                 <Button
                   variant="contained"
-                  style={{
-                    background: "linear-gradient(to right, #6a11cb, #2575fc)",
-                    color: "white",
-                  }}
+                  className="custom-button"
                   startIcon={<StyledAddIcon />}
                   onClick={handleModalOpen}
                 >
@@ -109,10 +107,7 @@ function ProductManangement() {
                 <AddProductModal open={modalOpen} onClose={handleModalClose} />
                 <Button
                   variant="contained"
-                  style={{
-                    background: "linear-gradient(to right, #6a11cb, #00c9ff)",
-                    color: "white",
-                  }}
+                  className="custom-button"
                   onClick={handleOpenProductModal}
                 >
                   Add Bulk Products
@@ -153,11 +148,7 @@ function ProductManangement() {
           <TableContainer component={Paper} style={{ borderRadius: "8px" }}>
             <Table style={{ tableLayout: "fixed", width: "100%" }}>
               <TableHead>
-                <TableRow
-                  style={{
-                    background: "linear-gradient(to right, #6a11cb, #2575fc)",
-                  }}
-                >
+                <TableRow className="row-background">
                   {[
                     "Image",
                     "Product Code",
@@ -171,16 +162,7 @@ function ProductManangement() {
                     "Date Added",
                     "Actions",
                   ].map((header, index) => (
-                    <TableCell
-                      key={index}
-                      style={{
-                        color: "white",
-                        fontWeight: "bold",
-                        textAlign: "center",
-                        padding: "12px",
-                        // width: "150px",
-                      }}
-                    >
+                    <TableCell key={index} className="cell-style">
                       {header}
                     </TableCell>
                   ))}
@@ -245,4 +227,4 @@ function ProductManangement() {
   );
 }
 
-export default ProductManangement;
+export default ProductManagement;

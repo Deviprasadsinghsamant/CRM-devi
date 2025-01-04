@@ -19,6 +19,8 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useOrderContext } from "../../../context/OrderContext";
 import dayjs from "dayjs";
 import LogisticsForm from "./LogisticsForm";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const PaymentForm = () => {
   const { orderId, generateOrderId } = useOrderContext();
@@ -102,11 +104,11 @@ const PaymentForm = () => {
       console.log(paymentData);
 
       const response = await axios.post("http://localhost:8080/payments", paymentData);
-      alert("Payments created successfully!");
+      toast.success("Payments created successfully!");
       console.log(response.data);
     } catch (err) {
       console.error("Error creating payments:", err.response?.data || err);
-      alert("Error creating payments.");
+      toast.error("Error creating payments.");
     }
   };
 
@@ -239,6 +241,8 @@ const PaymentForm = () => {
           Submit Payments
         </Button>
       </Box>
+      {/* ToastContainer for displaying toast notifications */}
+      <ToastContainer />
     </Grid>
   );
 };

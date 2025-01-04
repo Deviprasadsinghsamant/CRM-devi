@@ -18,23 +18,7 @@ import PropTypes from "prop-types";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-
-const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "90%",
-  maxWidth: 1350,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  paddingLeft: 5,
-  paddingRight: 4,
-
-  borderRadius: "8px",
-  height: "85vh",
-  overflowY: "auto",
-};
+import "./globalstyling/viewModal.css";
 
 function ViewModal({ order, invoice }) {
   const [open, setOpen] = useState(false);
@@ -88,7 +72,7 @@ function ViewModal({ order, invoice }) {
         <VisibilityIcon fontSize="large" />
       </Button>
       <Modal open={open} onClose={handleClose}>
-        <Box sx={modalStyle}>
+        <Box className="modal">
           <Box
             sx={{
               position: "sticky",
@@ -141,16 +125,7 @@ function ViewModal({ order, invoice }) {
           </Box>
 
           <Box sx={{ mt: 4 }}>
-            <Grid
-              container
-              spacing={2}
-              sx={{
-                border: "1px solid #e0e0e0 !important",
-                borderRadius: "8px !important",
-                padding: "16px !important",
-                backgroundColor: "#f9f9f9 !important",
-              }}
-            >
+            <Grid container spacing={2} className="grid-card">
               {[
                 { label: "Order ID", value: order.orderId },
                 { label: "Order Date", value: new Date(order.orderDate).toLocaleDateString() },

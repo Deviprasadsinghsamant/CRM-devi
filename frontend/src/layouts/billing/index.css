@@ -1,0 +1,18 @@
+.container {
+    padding: 1.5rem;
+    border-radius: 8px;
+    background-color: white;
+  }
+.custom-button{
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: white !important;
+}
+.row-background{
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+}
+.cell-style{
+    color: white !important;
+  font-weight: bold;
+  text-align: center;
+  padding: 12px;
+}

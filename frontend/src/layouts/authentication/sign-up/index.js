@@ -14,6 +14,7 @@ import { FcGoogle } from "react-icons/fc";
 import { handleError } from "utils";
 import { ToastContainer } from "react-toastify";
 import { handleSuccess } from "utils";
+import "./index.css";
 
 const Basic = () => {
   const [signupInfo, setSignUpInfo] = useState({

@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .grid-item{
+    display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+
+  }
+  .custom-button {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: white !important;
+    height: 47px;
+    padding: 0 15px;
+    font-size: 12px;
+    width: 250px;
+  }
+  .button-custom{
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: white !important;
+  }
+  .button_custom{
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+  color: #fff !important;
+  text-transform: none;
+  padding: 8px 24px;
+  }

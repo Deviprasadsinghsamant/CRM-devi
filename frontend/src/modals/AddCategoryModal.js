@@ -103,6 +103,8 @@
 import React, { useState } from "react";
 import { Box, Button, Grid, Modal, TextField, Typography } from "@mui/material";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./globalstyling/modal.css";
 
 const AddCategoryModal = ({ open, onClose, onCategoryAdded }) => {
@@ -119,7 +121,7 @@ const AddCategoryModal = ({ open, onClose, onCategoryAdded }) => {
   const handleAddCategory = async () => {
     // Validate inputs
     if (!categoryName.trim()) {
-      alert("Category Name is required.");
+      toast.error("Category Name is required.");
       return;
     }
 
@@ -133,7 +135,7 @@ const AddCategoryModal = ({ open, onClose, onCategoryAdded }) => {
       });
 
       if (response.status === 201) {
-        alert("Category added successfully!");
+        toast.success("Category added successfully!");
 
         setCategoryName("");
         setCategoryDescription("");
@@ -145,11 +147,11 @@ const AddCategoryModal = ({ open, onClose, onCategoryAdded }) => {
         // Close the modal
         onClose();
       } else {
-        alert("Failed to add category. Please try again.");
+        toast.error("Failed to add category. Please try again.");
       }
     } catch (error) {
       console.error("Error adding category:", error);
-      alert(error.response?.data?.message || "An error occurred.");
+      toast.error(error.response?.data?.message || "An error occurred.");
     } finally {
       setLoading(false);
     }
@@ -239,6 +241,8 @@ const AddCategoryModal = ({ open, onClose, onCategoryAdded }) => {
           </Grid>
         </Box>
       </Modal>
+      {/* Toast container placed outside the modal */}
+      <ToastContainer />
     </div>
   );
 };

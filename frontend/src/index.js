@@ -7,10 +7,10 @@ import App from "App";
 import { MaterialUIControllerProvider } from "context";
 // Import the new OrderContext provider
 import { OrderProvider } from "./context/OrderContext";
+import "react-toastify/dist/ReactToastify.css";
 
 const container = document.getElementById("app");
 const root = createRoot(container);
-import "react-toastify/dist/ReactToastify.css";
 
 // root.render(
 //   <BrowserRouter>
