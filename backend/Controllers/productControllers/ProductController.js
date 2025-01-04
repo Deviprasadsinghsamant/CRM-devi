@@ -94,6 +94,87 @@ exports.getProducts = async (req, res) => {
   }
 };
 
+// //bulk products
+
+exports.createProducts = async (req, res) => {
+  try {
+    const { products } = req.body;
+    if (!products || !Array.isArray(products)) {
+      return res.status(400).json({
+        success: false,
+        message: "'products' should be a valid array.",
+      });
+    }
+    const requiredFields = [
+      "productCategory",
+      "categoryID",
+      "productName",
+      "productCode",
+      "productDescription",
+      "price",
+      "taxSlab",
+      "hsnCode",
+      "stock",
+    ];
+
+    const invalidProducts = products.filter((product) =>
+      requiredFields.some(
+        (field) => product[field] === undefined || product[field] === null
+      )
+    );
+
+    if (invalidProducts.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Some products have missing or invalid fields.",
+        invalidProducts,
+      });
+    }
+    const categoryIds = [...new Set(products.map((p) => p.categoryID))];
+    const validCategories = await ProductCategories.find({
+      _id: { $in: categoryIds },
+    });
+    const validCategoryIds = validCategories.map((c) => c._id.toString());
+
+    const invalidCategories = categoryIds.filter(
+      (id) => !validCategoryIds.includes(id)
+    );
+    if (invalidCategories.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid category IDs: ${invalidCategories.join(", ")}`,
+      });
+    }
+    const productCodes = products.map((p) => p.productCode);
+    const existingCodes = await Product.find({
+      productCode: { $in: productCodes },
+    }).select("productCode");
+
+    if (existingCodes.length > 0) {
+      const duplicateCodes = existingCodes.map((e) => e.productCode);
+      return res.status(400).json({
+        success: false,
+        message: `Duplicate product codes: ${duplicateCodes.join(", ")}`,
+        duplicateCodes,
+      });
+    }
+    const createdProducts = await Product.insertMany(products);
+
+    return res.status(201).json({
+      success: true,
+      message: "Products created successfully.",
+      products: createdProducts,
+    });
+  } catch (error) {
+    console.error("Error creating products:", error);
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while creating products.",
+      error: error.message,
+    });
+  }
+};
+
 exports.getProductById = async (req, res) => {
   try {
     console.log("Request Params:", req.params);
@@ -108,8 +189,6 @@ exports.getProductById = async (req, res) => {
         message: "Invalid product ID format.",
       });
     }
-
-    // Find product by ID
     const product = await Product.findById(productId).populate({
       path: "categoryID",
       select: "categoryName",

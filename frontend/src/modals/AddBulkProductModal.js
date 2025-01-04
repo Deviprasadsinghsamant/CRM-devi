@@ -1,52 +1,83 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from "react";
-import {
-  Modal,
-  Box,
-  TextField,
-  Button,
-  Typography,
-  Grid,
-  Checkbox,
-  FormControlLabel,
-  Select,
-  MenuItem,
-  Autocomplete,
-} from "@mui/material";
+import { Modal, Box, Button, Typography, Grid } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
-import "./globalstyling/modal.css";
-import { PropTypes } from "prop-types";
+import * as XLSX from "xlsx";
+import axios from "axios";
 
-// eslint-disable-next-line react/prop-types
 const AddBulkProductModal = ({ open, onClose }) => {
-  const [image, setImage] = useState(null);
-  const handleImageUpload = (event) => {
+  const [excelData, setExcelData] = useState([]);
+  const requiredHeaders = [
+    "productCategory",
+    "categoryID",
+    "productName",
+    "productCode",
+    "productDescription",
+    "price",
+    "taxSlab",
+    "hsnCode",
+    "stock",
+  ];
+  const handleFileUpload = (event) => {
     const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImage(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: "array" });
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      const jsonData = XLSX.utils.sheet_to_json(sheet);
+      const headers = Object.keys(jsonData[0]);
+      const missingHeaders = requiredHeaders.filter((header) => !headers.includes(header));
+
+      if (missingHeaders.length > 0) {
+        alert(`Missing headers: ${missingHeaders.join(", ")}`);
+        return;
+      }
+      setExcelData(jsonData);
+      alert("File uploaded and validated successfully!");
+    };
+    reader.readAsArrayBuffer(file);
   };
-  const handleBackdropClick = (event) => {
-    event.stopPropagation();
+  const handleSubmit = async () => {
+    if (excelData.length === 0) {
+      alert("No data to submit. Please upload a valid file.");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:8080/addProduct/bulkProducts", {
+        products: excelData,
+      });
+      if (response.status === 201) {
+        alert("Products added successfully!");
+        onClose();
+      } else {
+        alert("An error occurred while adding products.");
+      }
+    } catch (error) {
+      console.error("Error submitting products:", error);
+      alert(error.response?.data?.message || "An error occurred.");
+    }
   };
 
   return (
-    <div>
-      <Modal open={open} onClose={handleBackdropClick}>
-        <Box className="modal-style" onClick={handleBackdropClick}>
-          <Typography variant="h6" gutterBottom>
-            Bulk Product Form
-          </Typography>
-          <Grid item xs={12} textAlign="flex-start">
+    <Modal open={open} onClose={onClose}>
+      <Box className="modal-style">
+        <Typography variant="h6" gutterBottom>
+          Bulk Product Form
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
             <Button
               variant="outlined"
-              component="label"
+              component="a"
+              href="/templates/Product_Add.xlsx"
+              download="Product_Add.xlsx"
               startIcon={<CloudDownloadIcon />}
-              sx={{ marginBottom: 2 }}
               style={{
                 background: "linear-gradient(to right, #6a11cb, #2575fc)",
                 color: "white",
@@ -55,63 +86,50 @@ const AddBulkProductModal = ({ open, onClose }) => {
               Download Template
             </Button>
           </Grid>
-          <Typography variant="h6" mt={2} gutterBottom>
-            Upload Excel Sheet
-          </Typography>
-          <input
-            accept="image/*"
-            type="file"
-            onChange={handleImageUpload}
-            style={{ marginBottom: "8px" }}
-          />
-          <Typography variant="body2" color="textSecondary">
-            Maximum size 2Mb
-          </Typography>
-          {image && (
-            <Box className="box-style">
-              <img
-                src={image}
-                alt="Uploaded Preview"
-                style={{ maxWidth: "100%", maxHeight: "100%" }}
-              />
-            </Box>
-          )}
-          <Grid container spacing={8} justifyContent="center" marginTop={3}>
-            <Grid item>
-              <Button
-                variant="contained"
-                className="custom-button"
-                onClick={onClose}
-                style={{
-                  background: "linear-gradient(to right, #6a11cb, #2575fc)",
-                  color: "white",
-                }}
-              >
-                Cancel
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                className="custom-button"
-                style={{
-                  background: "linear-gradient(to right, #6a11cb, #2575fc)",
-                  color: "white",
-                }}
-              >
-                Add Products
-              </Button>
-            </Grid>
+          <Grid item xs={12}>
+            <Button
+              variant="outlined"
+              component="label"
+              startIcon={<CloudUploadIcon />}
+              style={{
+                background: "linear-gradient(to right, #6a11cb, #2575fc)",
+                color: "white",
+              }}
+            >
+              Upload Excel
+              <input type="file" accept=".xlsx, .xls" hidden onChange={handleFileUpload} />
+            </Button>
           </Grid>
-        </Box>
-      </Modal>
-    </div>
+        </Grid>
+        <Grid container spacing={2} justifyContent="center" marginTop={3}>
+          <Grid item>
+            <Button
+              variant="contained"
+              style={{
+                background: "linear-gradient(to right, #6a11cb, #2575fc)",
+                color: "white",
+              }}
+              onClick={onClose}
+            >
+              Cancel
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              style={{
+                background: "linear-gradient(to right, #6a11cb, #2575fc)",
+                color: "white",
+              }}
+              onClick={handleSubmit}
+            >
+              Submit
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
+    </Modal>
   );
-};
-
-AddBulkProductModal.PropTypes = {
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
 };
 
 export default AddBulkProductModal;

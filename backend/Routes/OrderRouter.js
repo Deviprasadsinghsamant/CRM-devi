@@ -3,26 +3,7 @@ const Order = require("../Models/orders");
 const Customer = require("../Models/customers");
 
 const router = express.Router();
-//below was fine v5
-// router.post("/", async (req, res) => {
-//   try {
-//     const { customer, ...orderData } = req.body;
 
-//     //validdate the customer id
-//     const existingCustomer = await Customer.findById(customer);
-//     if (!existingCustomer) {
-//       return res.status(400).json({ error: "Invalid customer ID" });
-//     }
-
-//     const newOrder = new Order({ ...orderData, customer });
-//     const savedOrder = await newOrder.save();
-//     res.status(201).json(savedOrder);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
-
-//new v5
 router.post("/", async (req, res) => {
   const {
     orderId,
@@ -45,19 +26,6 @@ router.post("/", async (req, res) => {
   } = req.body;
 
   try {
-    // Check for duplicate orderId
-    // const existingOrder = await Order.findOne({ orderId });
-    // if (existingOrder) {
-    //   return res.status(400).json({ error: "Order ID already exists." });
-    // }
-
-    // // Validate Customer ID
-    // const existingCustomer = await Customer.findById(customer);
-    // if (!existingCustomer) {
-    //   return res.status(404).json({ error: "Customer not found." });
-    // }
-
-    // Create new order
     const newOrder = new Order({
       orderId,
       orderDate,
@@ -104,30 +72,62 @@ router.get("/:id", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
 router.put("/:id", async (req, res) => {
+  const {
+    orderId,
+    orderDate,
+    bookedBy,
+    startDate,
+    completionDate,
+    paymentDueDate,
+    projectHead,
+    customer,
+    address,
+    billTo,
+    quotationNumber,
+    quotationDate,
+    poPiNumber,
+    poPiDate,
+    transportationCost,
+    amountWithGST,
+    totalAmount,
+  } = req.body;
+
   try {
-    const { customer, ...orderData } = req.body;
-
-    //if updated validate trhe customer (trial)
-
-    if (customer) {
-      const existingCustomer = await Customer.findById(customer);
-      if (!existingCustomer) {
-        return res.status(400).json({ error: "Invalid customer ID" });
-      }
-    }
-
+    // Find the order by ID and update with the new data
     const updatedOrder = await Order.findByIdAndUpdate(
       req.params.id,
-      { ...orderData, customer },
-      { new: true },
-    ).populate("customer");
+      {
+        orderId,
+        orderDate,
+        bookedBy,
+        startDate,
+        completionDate,
+        paymentDueDate,
+        projectHead,
+        customer,
+        address,
+        billTo,
+        quotationNumber,
+        quotationDate,
+        poPiNumber,
+        poPiDate,
+        transportationCost,
+        amountWithGST,
+        totalAmount,
+      },
+      { new: true, runValidators: true } // Options to return the updated document and validate the schema
+    );
 
-    if (!updatedOrder)
+    if (!updatedOrder) {
       return res.status(404).json({ error: "Order not found" });
+    }
+
     res.status(200).json(updatedOrder);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Error updating order:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 

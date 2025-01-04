@@ -275,12 +275,6 @@ const AddProductModal = ({ open, onClose }) => {
           </Box>
         )}
 
-        {/* <Box textAlign="center" marginTop={3}>
-          <Button variant="contained" color="primary" onClick={handleSubmit}>
-            Submit
-          </Button>
-        </Box> */}
-
         <Box textAlign="center" marginTop={3} display="flex" justifyContent="space-around">
           <Button
             style={{

@@ -50,6 +50,7 @@ import EditProduct from "layouts/billing/EditProduct";
 // @mui icons
 import Icon from "@mui/material/Icon";
 import ShowTable from "layouts/orders/ShowTable";
+import EditOrder from "layouts/orders/EditOrder";
 
 const routes = [
   {
@@ -136,6 +137,13 @@ const routes = [
     key: "edit-product",
     route: "/addProduct/:productId",
     component: <EditProduct />, // Your edit product component
+  },
+  {
+    // Add the route for editing the order
+    name: "Edit Order",
+    key: "edit-order",
+    route: "/orders/:orderId", // Dynamic route for editing an order
+    component: <EditOrder />,
   },
 ];
 

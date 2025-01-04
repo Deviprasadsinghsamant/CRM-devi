@@ -27,7 +27,12 @@ import ShowInvoice from "./ShowInvoice";
 import ShowLogistics from "./ShowLogistics";
 import ShowPayment from "./ShowPayment";
 import ViewModal from "modals/ViewModal";
+import EditIcon from "@mui/icons-material/Edit";
 import "./ShowTable.css";
+// import React from "react";
+import IconButton from "@mui/material/IconButton";
+// import EditIcon from "@mui/icons-material/Edit";
+// import { Link } from "react-router-dom";
 
 function OrderManagement() {
   const [orders, setOrders] = useState([]);
@@ -176,7 +181,7 @@ function OrderManagement() {
                     <TableCell
                       style={{
                         padding: "12px",
-                        width: "250px",
+                        width: "230px",
                         color: "white",
                         fontWeight: "bold",
                       }}
@@ -187,7 +192,7 @@ function OrderManagement() {
                       style={{
                         padding: "12px",
 
-                        width: "290px",
+                        width: "260px",
                         color: "white",
                         fontWeight: "bold",
                       }}
@@ -197,7 +202,7 @@ function OrderManagement() {
                     <TableCell
                       style={{
                         padding: "12px",
-                        width: "270px",
+                        width: "250px",
                         color: "white",
                         fontWeight: "bold",
                       }}
@@ -218,7 +223,7 @@ function OrderManagement() {
                       style={{
                         padding: "12px",
 
-                        flexGrow: 1,
+                        width: "100px",
                         color: "white",
                         fontWeight: "bold",
                       }}
@@ -261,29 +266,42 @@ function OrderManagement() {
                             flexGrow: 1,
                           }}
                         >
-                          <ViewModal
-                            order={{
-                              oid: order._id,
-                              orderId: order.orderId,
-                              bookedBy: order.bookedBy,
-                              orderDate: order.orderDate,
-                              startDate: order.startDate,
-                              completionDate: order.completionDate,
-                              paymentDueDate: order.paymentDueDate,
-                              projectHead: order.projectHead,
-                              customer: customer._id || "N/A",
-                              address: order.address,
-                              billTo: order.billTo,
-                              customerName: customer.contactName || "N/A",
-                              quotationNumber: order.quotationNumber,
-                              quotationDate: order.quotationDate,
-                              poPiNumber: order.poPiNumber,
-                              poPiDate: order.poPiDate,
-                              transportationCost: order.transportationCost,
-                              amountWithGST: order.amountWithGST,
-                              totalAmount: order.totalAmount,
-                            }}
-                          />
+                          <Box display="flex" alignItems="center">
+                            <ViewModal
+                              order={{
+                                oid: order._id,
+                                orderId: order.orderId,
+                                bookedBy: order.bookedBy,
+                                orderDate: order.orderDate,
+                                startDate: order.startDate,
+                                completionDate: order.completionDate,
+                                paymentDueDate: order.paymentDueDate,
+                                projectHead: order.projectHead,
+                                customer: customer._id || "N/A",
+                                address: order.address,
+                                billTo: order.billTo,
+                                customerName: customer.contactName || "N/A",
+                                quotationNumber: order.quotationNumber,
+                                quotationDate: order.quotationDate,
+                                poPiNumber: order.poPiNumber,
+                                poPiDate: order.poPiDate,
+                                transportationCost: order.transportationCost,
+                                amountWithGST: order.amountWithGST,
+                                totalAmount: order.totalAmount,
+                              }}
+                            />
+                            <IconButton
+                              component={Link}
+                              to={{
+                                pathname: `/orders/${order._id}`,
+                              }}
+                              state={{ order }} // Pass the order as state
+                              color="secondary"
+                              style={{ marginLeft: "10px" }}
+                            >
+                              <EditIcon />
+                            </IconButton>
+                          </Box>
                         </TableCell>
                       </TableRow>
                     );

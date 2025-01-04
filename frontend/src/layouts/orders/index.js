@@ -32,15 +32,10 @@ import { generateOrderId } from "../../context/OrderContext";
 
 function Tables() {
   //f2
-  // const { orderId, generateOrderId } = useOrderContext();
-  // const orderId = generateOrderId();
+
   const { orderId, generateOrderId } = useOrderContext();
   //v8
   const [activeForm, setActiveForm] = useState(""); // State to track active form
-
-  // States for all input fields
-  //below line helped running if it doesnt help then revert
-  // const [orderId, setOrderId] = useState("");
   const [orderDate, setOrderDate] = useState(dayjs());
   const [orderStartDate, setOrderStartDate] = useState(null);
   const [orderCompletionDate, setOrderCompletionDate] = useState(null);
@@ -77,24 +72,6 @@ function Tables() {
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
 
-  //below is for automated orderid generator
-  // useEffect(() => {
-  //   const generateOrderId = () => {
-  //     const timestamp = Date.now();
-  //     const randomNum = Math.floor(Math.random() * 1000);
-  //     return `ORD-${timestamp}-${randomNum}`;
-  //   };
-
-  //   setOrderId(generateOrderId());
-  // }, []);
-
-  //below very very important
-  // useEffect(() => {
-  //   if (!orderId) {
-  //     generateOrderId(); // Generate orderId if not already generated
-  //   }
-  // }, [orderId, generateOrderId]);
-  //v4 chain final
   useEffect(() => {
     const createOrderId = async () => {
       if (!orderId) {
@@ -196,8 +173,7 @@ function Tables() {
     try {
       const formattedData = {
         orderId,
-        //below new add
-        customer: selectedCustomer?._id || "", // Send customer ID
+        customer: selectedCustomer?._id || "",
         orderDate: orderDate.toISOString().split("T")[0],
         bookedBy: formData.bookedBy || "Administrator",
         projectHead: formData.projectHead || "pro1",
@@ -232,26 +208,6 @@ function Tables() {
     setCustomers((prevCustomers) => [...prevCustomers, newCustomer]); // Add the new customer to the list
   };
 
-  //NEW ADD TOGGLE
-  // const toggleFormVisibility = (form) => {
-  //   switch (form) {
-  //     case "product":
-  //       setShowProductForm(!showProductForm);
-  //       break;
-  //     case "invoice":
-  //       setShowInvoiceForm(!showInvoiceForm);
-  //       break;
-  //     case "logistics":
-  //       setShowLogisticsForm(!showLogisticsForm);
-  //       break;
-  //     case "payment":
-  //       setShowPaymentForm(!showPaymentForm);
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
-  //v8
   const renderForm = () => {
     switch (activeForm) {
       case "product":
